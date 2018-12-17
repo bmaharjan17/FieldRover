@@ -1,0 +1,21 @@
+/*body {*/
+/*    background-image: radial-gradient( circle farthest-corner at 10% 20%,  */
+/*                                        rgba(107,157,171,1) 23.8%, */
+/*                                        rgba(92,122,158,1) 66% );*/
+/*}*/
+
+.thumbnail img {
+    width: 100%;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+}
+
+.delete-form {
+    display: inline;
+}

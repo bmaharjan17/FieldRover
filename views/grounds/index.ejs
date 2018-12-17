@@ -1,0 +1,37 @@
+<% include ../partials/header %>
+<div class="container">
+    
+    <header class="jumbotron">
+        <h1>Welcome To Field Rover!!!</h1>
+        <p>The one stop portal to your community sporting venues </p
+        <p>
+               <a class="btn btn-primary btn-lg" href="/grounds/new">Add New Grounds</a>
+        </p>
+    </header>
+    
+    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+             <% grounds.forEach(function(ground){ %>
+                <div class="col-md-3 col-sm-6">
+                    <div class="thumbnail">
+                         <img src="<%= ground.image %>">
+                         <div class="caption">
+                             <h4><%= ground.name %></h4>
+                         </div>
+                         <p>
+                             <a href="/grounds/<%= ground._id %>" class="btn btn-primary">More Info</a>
+                         </p>
+                    </div>
+                </div>
+        
+            <% }); %>
+
+        
+    </div>
+    
+    
+ 
+    
+   
+</div>
+
+<% include ../partials/footer %>
