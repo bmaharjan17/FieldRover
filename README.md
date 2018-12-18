@@ -3,8 +3,15 @@
 
 > A Node.js web application that helps with finding, reviewing sports venue for local communities
 
+## Disclaimer
+
+> This is a beta version of the web application used for strictly academic purposes. 
+> Few of the environment and keys deliberately hidden to protect the author's privacy. 
+> However, feel free to clone this repository if needed.
+
 ## Live Demo
 
+> Coming Soon
 
 ## Features
 
@@ -27,14 +34,22 @@
   * Create, edit and delete posts and comments
 
   * Flash messages responding to users' interaction with the app
-
-  * Responsive web design
   
-  * Blackground-Slider for the landing page
+  * Location service with the help of google map APIs
+  
+  * Peform custom keyword searches of the existing grounds 
+
+
+
+* Responsive web design
+  
+* Blackground-Slider for the landing page
+
+
 
 ### Custom Enhancements
 
-
+> Coming soon 
 
 ### Install dependencies
 
