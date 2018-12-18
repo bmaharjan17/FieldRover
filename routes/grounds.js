@@ -4,6 +4,16 @@ var router  = express.Router();
 var Ground  = require("../models/ground");
 var Comment  = require("../models/comment");
 var middleware = require("../middleware"); //auto imports index.js
+var NodeGeocoder = require('node-geocoder');
+
+var options = {
+  provider: 'google',
+  httpAdapter: 'https',
+  apiKey: process.env.GEOCODER_API_KEY, 
+  formatter: null
+};
+ 
+var geocoder = NodeGeocoder(options);
 
 //INDEX route --show all grounds
 router.get("/grounds", function(req, res) {
@@ -20,30 +30,61 @@ router.get("/grounds", function(req, res) {
 });
 
 //CREATE route ---add new grounds to DB
-router.post("/grounds", middleware.isLoggedIn, function(req, res){
-    //get data from form and add to grounds array
-    var name = req.body.name;
-    var price = req.body.price;
-    var image = req.body.image;
-    var desc = req.body.description;
-    var author = {
-        id: req.user._id,
-        username: req.user.username
-    }
-    var newGround = {name: name, price: price, image: image, description: desc, author:author};
+// router.post("/grounds", middleware.isLoggedIn, function(req, res){
+//     //get data from form and add to grounds array
+//     var name = req.body.name;
+//     var price = req.body.price;
+//     var image = req.body.image;
+//     var desc = req.body.description;
+//     var author = {
+//         id: req.user._id,
+//         username: req.user.username
+//     }
+//     var newGround = {name: name, price: price, image: image, description: desc, author:author};
     
-    //create a new ground and save to DB
+//     //create a new ground and save to DB
+//     Ground.create(newGround, function(err, newlyCreated){
+//         if(err){
+//             console.log(err);
+//         } else {
+//             //redirect back to list of grounds page
+//             console.log(newlyCreated);
+//             res.redirect("/grounds");
+//         }
+//     });
+// });
+
+router.post("/grounds", middleware.isLoggedIn, function(req, res){
+  // get data from form and add to grounds array
+  var name = req.body.name;
+  var image = req.body.image;
+  var desc = req.body.description;
+  var author = {
+      id: req.user._id,
+      username: req.user.username
+  };
+  geocoder.geocode(req.body.location, function (err, data) {
+    if (err || !data.length) {
+      console.log(err);
+      req.flash('error', 'Invalid address');
+      return res.redirect('back');
+    }
+    var lat = data[0].latitude;
+    var lng = data[0].longitude;
+    var location = data[0].formattedAddress;
+    var newGround = {name: name, image: image, description: desc, author:author, location: location, lat: lat, lng: lng};
+    // Create a new ground and save to DB
     Ground.create(newGround, function(err, newlyCreated){
         if(err){
             console.log(err);
         } else {
-            //redirect back to list of grounds page
+            //redirect back to grounds page
             console.log(newlyCreated);
             res.redirect("/grounds");
         }
     });
+  });
 });
-
 
 //NEW route --show form to create new ground
 router.get("/grounds/new", middleware.isLoggedIn, function(req, res) {
@@ -74,16 +115,39 @@ router.get("/grounds/:id/edit", middleware.checkGroundOwnership, function(req, r
 });
 
 //Update Ground Route
+// router.put("/grounds/:id", middleware.checkGroundOwnership, function(req, res){
+//     //find and update the corresponding ground
+//     Ground.findByIdAndUpdate(req.params.id, req.body.ground, function(err, updatedGround){
+//         if(err){
+//             res.redirect("/grounds");
+//         } else{
+//             //redirect to show page
+//             res.redirect("/grounds/" + req.params.id);
+//         }
+//     });
+// });
+
+// UPDATE GROUND ROUTE
 router.put("/grounds/:id", middleware.checkGroundOwnership, function(req, res){
-    //find and update the corresponding ground
-    Ground.findByIdAndUpdate(req.params.id, req.body.ground, function(err, updatedGround){
+  geocoder.geocode(req.body.location, function (err, data) {
+    if (err || !data.length) {
+      req.flash('error', 'Invalid address');
+      return res.redirect('back');
+    }
+    req.body.ground.lat = data[0].latitude;
+    req.body.ground.lng = data[0].longitude;
+    req.body.ground.location = data[0].formattedAddress;
+
+    Ground.findByIdAndUpdate(req.params.id, req.body.ground, function(err, ground){
         if(err){
-            res.redirect("/grounds");
-        } else{
-            //redirect to show page
-            res.redirect("/grounds/" + req.params.id);
+            req.flash("error", err.message);
+            res.redirect("back");
+        } else {
+            req.flash("success","Successfully Updated!");
+            res.redirect("/grounds/" + ground._id);
         }
     });
+  });
 });
 
 //Destroy Ground Route

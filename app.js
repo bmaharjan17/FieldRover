@@ -1,4 +1,6 @@
 //importing packages
+require('dotenv').config();
+
 var express         = require("express"),
     app             = express(),
     bodyParser      = require("body-parser"),
@@ -27,7 +29,7 @@ console.log(process.env.DATABASEURL);
 // mongoose.connect("mongodb://bmaharjan17:funtoosh687713@ds237574.mlab.com:37574/fieldrover", { useNewUrlParser: true });
 // mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
 //=============
-// connect to the DB with env var
+// connect to the DB by accessing env var
 let url = process.env.DATABASEURL || "mongodb://mongodb://localhost:27017/field_rover"; //fallback in case global var is not working
 // mongoose.connect(url, {useMongoClient: true});
 mongoose.connect(url, { useNewUrlParser: true });
