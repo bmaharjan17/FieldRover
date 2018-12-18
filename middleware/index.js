@@ -17,7 +17,7 @@ middlewareObj.checkGroundOwnership = function(req, res, next){
                 } else {
                     //does the user own the ground?
                     //can't compare obj with string so use the method equals()
-                        if(foundGround.author.id.equals(req.user._id)){
+                        if(foundGround.author.id.equals(req.user._id) || req.user.isAdmin){
                             next();
                         } else{
                             req.flash("error", "Access Denied!");
@@ -40,7 +40,7 @@ middlewareObj.checkCommentOwnership = function(req, res, next){
             } else {
                 //does the user own the comment?
                 //can't compare obj with string so use the method equals()
-                if(foundComment.author.id.equals(req.user._id)){
+                if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin){
                     next();
                 } else{
                     req.flash("error", "Access Denied!");
