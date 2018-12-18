@@ -17,16 +17,30 @@ var geocoder = NodeGeocoder(options);
 
 //INDEX route --show all grounds
 router.get("/grounds", function(req, res) {
-    
+    var noMatch = null;
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        // Get all grounds from DB
+        Ground.find({name: regex}, function(err, allGrounds){
+           if(err){
+               console.log(err);
+           } else {
+              if(allGrounds.length < 1) {
+                  noMatch = "No grounds match your search, please try again.";
+              }
+              res.render("grounds/index",{grounds:allGrounds, noMatch: noMatch});
+           }
+        });
+    } else {
     //Get all grounds from db
     Ground.find({}, function(err, allGrounds){
         if(err){
             console.log(err);
-        } else{
-            res.render("grounds/index", {grounds: allGrounds});
-        }
-    });
-    
+            } else{
+                res.render("grounds/index", {grounds: allGrounds});
+            }
+        });
+    } 
 });
 
 //CREATE route ---add new grounds to DB
@@ -162,6 +176,8 @@ router.delete("/grounds/:id", middleware.checkGroundOwnership, function(req, res
 });
 
 
-
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports  = router;

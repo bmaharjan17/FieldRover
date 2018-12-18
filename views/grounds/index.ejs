@@ -1,15 +1,30 @@
 <% include ../partials/header %>
-<div class="container">
-    
-    <header class="jumbotron">
-        <h1>Welcome To Field Rover!!!</h1>
-        <p>The one stop portal to your community sporting venues </p
-        <p>
-               <a class="btn btn-primary btn-lg" href="/grounds/new">Add New Grounds</a>
-        </p>
-    </header>
+    <div class="container">
+        <header class="jumbotron">
+            <div class="container">
+                <h1>Welcome To Field Rover!!!</h1>
+                <p>The one stop portal to your community sporting venues </p
+                <p>
+                   <a class="btn btn-primary btn-lg" href="/grounds/new">Add New Grounds</a>
+                </p>
+            </div>
+        </header>
     
     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        <div class="col-md-12">
+            <% if(noMatch !== null) { %>
+             <h3><%= noMatch %></h3>
+             <p>
+            	<form action="/grounds" method="GET" class="form-inline">
+            		<div class="form-group">
+            			<input type="text" name="search" placeholder="Ground search..." class="form-control">
+            			<input type="submit" value="Search" class="btn btn-default">
+            		</div>
+            	</form>
+            </p>
+             <% } %>
+         </div>
+            
              <% grounds.forEach(function(ground){ %>
                 <div class="col-md-3 col-sm-6">
                     <div class="thumbnail">
@@ -25,12 +40,7 @@
         
             <% }); %>
 
-        
     </div>
-    
-    
- 
-    
    
 </div>
 
