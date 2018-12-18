@@ -17,6 +17,9 @@ var commentRoutes   = require("./routes/comments"),
     groundRoutes    = require("./routes/grounds"),
     indexRoutes     = require("./routes/index");
 
+//===========
+//DB configs ==> still needs tweak
+//===========
 console.log(process.env.DATABASEURL);
 
 //Db connection for localDB
@@ -25,13 +28,14 @@ console.log(process.env.DATABASEURL);
 //DB config for mongolab or mlab for heroku hosting
 // mongoose.connect("mongodb://bmaharjan17:funtoosh687713@ds237574.mlab.com:37574/fieldrover", { useNewUrlParser: true });
 
-mongoose.connect(process.env.DATABASEURL);
+// mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
 
 // connect to the DB
 let url = process.env.DATABASEURL || "mongodb://mongodb://localhost:27017/field_rover"; // fallback in case global var not working
 // mongoose.connect(url, {useMongoClient: true});
 mongoose.connect(url, { useNewUrlParser: true });
 
+//===========
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
