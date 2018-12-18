@@ -1,7 +1,7 @@
 #FieldRover
 
 
-> A Node.js web application Capstone Project for BSU CS Dept Fall 2018
+> A Node.js web application that helps with finding, reviewing sports venue for local communities
 
 ## Live Demo
 
@@ -41,13 +41,6 @@
 ```sh
 npm install
 ```
-
-or
-
-```sh
-yarn install
-```
-
 
 ## Built with
 
