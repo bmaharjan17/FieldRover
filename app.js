@@ -17,7 +17,12 @@ var commentRoutes   = require("./routes/comments"),
     groundRoutes    = require("./routes/grounds"),
     indexRoutes     = require("./routes/index");
 
-mongoose.connect("mongodb://localhost:27017/field_rover", { useNewUrlParser: true });
+//Db connection for localDB
+// mongoose.connect("mongodb://localhost:27017/field_rover", { useNewUrlParser: true });
+
+//DB config for mongolab or mlab for heroku hosting
+mongoose.connect("mongodb://bmaharjan17:funtoosh687713@ds237574.mlab.com:37574/fieldrover", { useNewUrlParser: true });
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));   //the directory this script is running
