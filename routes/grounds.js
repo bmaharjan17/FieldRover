@@ -37,7 +37,7 @@ router.get("/grounds", function(req, res) {
         if(err){
             console.log(err);
             } else{
-                res.render("grounds/index", {grounds: allGrounds});
+                res.render("grounds/index", {grounds: allGrounds, noMatch: noMatch});
             }
         });
     } 
