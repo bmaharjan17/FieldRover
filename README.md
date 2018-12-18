@@ -16,9 +16,9 @@
 
 * Authorization:
 
-  * One cannot manage posts and view user profile without being authenticated
+  * Users cannot manage posts and view user profile without being authenticated
 
-  * One cannot edit or delete posts and comments created by other users
+  * Users cannot edit or delete posts and comments created by other users
 
 
 
