@@ -17,11 +17,21 @@ var commentRoutes   = require("./routes/comments"),
     groundRoutes    = require("./routes/grounds"),
     indexRoutes     = require("./routes/index");
 
+console.log(process.env.DATABASEURL);
+
 //Db connection for localDB
 // mongoose.connect("mongodb://localhost:27017/field_rover", { useNewUrlParser: true });
 
 //DB config for mongolab or mlab for heroku hosting
-mongoose.connect("mongodb://bmaharjan17:funtoosh687713@ds237574.mlab.com:37574/fieldrover", { useNewUrlParser: true });
+// mongoose.connect("mongodb://bmaharjan17:funtoosh687713@ds237574.mlab.com:37574/fieldrover", { useNewUrlParser: true });
+
+mongoose.connect(process.env.DATABASEURL);
+
+// connect to the DB
+let url = process.env.DATABASEURL || "mongodb://mongodb://localhost:27017/field_rover"; // fallback in case global var not working
+// mongoose.connect(url, {useMongoClient: true});
+mongoose.connect(url, { useNewUrlParser: true });
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -60,3 +70,4 @@ app.use(groundRoutes);
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("Field Rover Server has started!!"); 
 });
+
